@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pz1</title>
+</head>
+<body>
+    <h1>Програма для збереження інформації про користувачів</h1>
+    <button onclick="startProgram()">Запустити</button>
+
+    <script>
+        class User {
+            constructor(name, age, profession) {
+                this.name = name;
+                this.age = age;
+                this.profession = profession;
+            }
+
+            display() {
+                const message = `name: ${this.name}\nage: ${this.age}\nprofession: ${this.profession}`;
+                alert(message);
+                console.log(message);
+            }
+        }
+
+        class Admin extends User {
+            constructor(name, age, profession, role) {
+                super(name, age, profession);
+                this.role = role;
+            }
+
+            display() {
+                const message = `name: ${this.name}\nage: ${this.age}\nprofession: ${this.profession}\nrole: ${this.role}`;
+                alert(message);
+                console.log(message);
+            }
+        }
+
+        function getUserInput(promptMessage, validator) {
+            let value;
+            do {
+                value = prompt(promptMessage);
+            } while (!validator(value));
+            return value;
+        }
+
+        function isValidName(name) {
+            return name && name.trim().length > 0;
+        }
+
+        function isValidAge(age) {
+            const num = Number(age);
+            return !isNaN(num) && num > 0;
+        }
+
+        function isValidProfession(profession) {
+            return profession && profession.trim().length > 0;
+        }
+
+        function isValidRole(role) {
+            return role && role.trim().length > 0;
+        }
+
+        function startProgram() {
+            const name = getUserInput("Введіть ім'я:", isValidName);
+            const age = getUserInput("Введіть вік:", isValidAge);
+            const profession = getUserInput("Введіть професію:", isValidProfession);
+            const isAdmin = confirm("Чи є користувач адміністратором?");
+
+            if (isAdmin) {
+                const role = getUserInput("Введіть роль адміністратора:", isValidRole);
+                const admin = new Admin(name, age, profession, role);
+                admin.display();
+            } else {
+                const user = new User(name, age, profession);
+                user.display();
+            }
+        }
+    </script>
+</body>
+</html>
+
